@@ -1,4 +1,4 @@
-#! python
+#!/bin/env python
 
 from requests import session
 import json
