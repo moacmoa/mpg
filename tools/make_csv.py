@@ -15,9 +15,10 @@ for f in files:
 	with open(os.path.join(datadir, f)) as tmp:
 		players.append(Player(json.loads(tmp.read())))
 	
-lines="nom\tclub\tposition\tbuts\tmoyenne\tpercLast5\tcote\n"	
+lines="nom\tnom\tclub\tposition\tbuts\tmoyenne\tpercLast5\tcote\n"	
 for p in players:
-	line="{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
+	line="{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
+		p.lastname.encode("utf-8"),
 		p.getPrenomNom(),
 		p.club,
 		p.getPosition(),
