@@ -19,7 +19,8 @@ print("getting : "+url)
 http=s.get(url)
 sleep(1)
 players=json.loads(http.text)
-
+print("{} Joueurs trouves".format(len(players)))
+i=1
 for player in players:
 	id=player["id"].split("_")[1]
 	#print(player)
@@ -35,9 +36,10 @@ for player in players:
 	print("{} {} ({})".format(prenom.encode("utf-8"), nom.encode("utf-8"), club.encode("utf-8")))
 	
 	url="https://api.monpetitgazon.com/stats/player/{}?season={}".format(id, saison)
-	print("getting : "+url)
+	print("[{}/{}] Getting : {}".format(i, len(players), url))
 	http=s.get(url)
 	sleep(1)
 	with open(os.path.join(datadir, id+".json"), "w") as f:
-		f.write(http.text.encode("utf-8"))
-	#print(json.loads(http.text))
+		js=json.loads(http.text.encode("utf-8"))
+		f.write(json.dumps(js, indent=4))
+	i+=1

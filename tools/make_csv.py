@@ -8,16 +8,22 @@ datadir=os.path.join(mpgdir, "data")
 txtfile=os.path.join(mpgdir, "mpg.txt")
 
 files=os.listdir(datadir)
-print(len(files))
 
 players=[]
 for f in files:
 	with open(os.path.join(datadir, f)) as tmp:
 		players.append(Player(json.loads(tmp.read())))
 	
-lines="nom\tnom\tclub\tposition\tbuts\tmoyenne\tpercLast5\tcote\n"	
+lines="nom\tnom\tclub\tposition\tbuts\tavg\tl5%\tl5\tl5avg\tcote\n"	
 for p in players:
-	line="{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
+	sPresence=""
+	for e in p.getLastFivePresence():
+		if e:
+			sPresence+="X"
+		else:
+			sPresence+="o"
+			
+	line="{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
 		p.lastname.encode("utf-8"),
 		p.getPrenomNom(),
 		p.club,
@@ -25,6 +31,8 @@ for p in players:
 		str(p.stats["sumGoals"]).replace(".", ","),
 		str(p.stats["avgRate"]).replace(".", ","),
 		str(p.getLastFivePercent()).replace(".", ","),
+		sPresence,
+		str(round(p.getLastFiveAverage(), 2)).replace(".",","),
 		str(p.quotation).replace(".", ",")
 	)
 	
