@@ -14,7 +14,7 @@ for f in files:
 	with open(os.path.join(datadir, f)) as tmp:
 		players.append(Player(json.loads(tmp.read())))
 	
-lines="nom\tnom\tclub\tposition\tbuts\tavg\tl5%\tl5\tl5avg\tcote\n"	
+lines="nom\tnom\tclub\tposition\tbuts\tavg\tet\tl5%\tl5\tl5avg\tl5et\tcote\n"	
 for p in players:
 	sPresence=""
 	for e in p.getLastFivePresence():
@@ -23,16 +23,19 @@ for p in players:
 		else:
 			sPresence+="o"
 			
-	line="{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
+	line="{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
 		p.lastname.encode("utf-8"),
 		p.getPrenomNom(),
 		p.club,
 		p.getPosition(),
 		str(p.stats["sumGoals"]).replace(".", ","),
-		str(p.stats["avgRate"]).replace(".", ","),
+		#str(p.stats["avgRate"]).replace(".", ","),
+		str(round(p.allAverage, 2)).replace(".",","),
+		str(round(p.allStdDev, 2)).replace(".",","),
 		str(p.getLastFivePercent()).replace(".", ","),
 		sPresence,
-		str(round(p.getLastFiveAverage(), 2)).replace(".",","),
+		str(round(p.lastFiveAverage, 2)).replace(".",","),
+		str(round(p.lastFiveStdDev, 2)).replace(".",","),
 		str(p.quotation).replace(".", ",")
 	)
 	

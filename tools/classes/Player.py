@@ -5,6 +5,8 @@ class Player():
 		if self.stats["avgRate"]=="-":
 			self.stats["avgRate"]="0"
 		self.setLastFiveDays()
+		self.setLastFiveStats()
+		self.setAllStats()
 		
 	def setLastFiveDays(self):
 		l5=self.stats["lastFiveRate"]
@@ -34,13 +36,39 @@ class Player():
 				ret.append(True)
 		return(ret)
 	
-	def getLastFiveAverage(self):
+	def setLastFiveStats(self):
 		matches=self.stats["matches"]
 		notes=[float(m["info"]["rate"]) for m in matches if m["day"] in self.last5Days]
 		avg=0.
+		stddev=0
 		if len(notes)>0:
 			avg=sum(notes)/len(notes)
-		return(avg)
+		
+			ecarts=[abs(n-avg) for n in notes]
+			stddev=sum(ecarts)/len(ecarts)
+		
+		self.lastFiveAverage=avg
+		self.lastFiveStdDev=stddev
+		
+		
+		return(avg, stddev)
+		
+	def setAllStats(self):
+		matches=self.stats["matches"]
+		notes=[float(m["info"]["rate"]) for m in matches]
+		avg=0.
+		stddev=0
+		if len(notes)>0:
+			avg=sum(notes)/len(notes)
+		
+			ecarts=[abs(n-avg) for n in notes]
+			stddev=sum(ecarts)/len(ecarts)
+		
+		self.allAverage=avg
+		self.allStdDev=stddev
+		
+		return(avg, stddev)
+	
 			
 	def getPrenomNom(self):
 		prenom=self.firstname
