@@ -80,6 +80,16 @@ class Player():
 		ret="{} {}".format(prenom.encode("utf-8"), nom.encode("utf-8")).strip()
 		return(ret)
 		
+	def getNomPrenom(self):
+		prenom=self.firstname
+		if not prenom:
+			prenom=""
+		nom=self.lastname
+		if not nom:
+			nom=""
+		ret="{} {}".format(nom.encode("utf-8"), prenom.encode("utf-8")).strip()
+		return(ret)
+		
 	def getPosition(self):
 		tab=[None, "Gardien", "Defenseur", "Milieu", "Attaquant"]
 		return(tab[self.position])

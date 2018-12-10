@@ -14,7 +14,7 @@ for f in files:
 	with open(os.path.join(datadir, f)) as tmp:
 		players.append(Player(json.loads(tmp.read())))
 	
-lines="id\tnom\tclub\tposition\tbuts\tavg\tet\tl5%\tl5\tl5avg\tl5et\tcote\n"	
+lines="id\tid\tnom\tclub\tposition\tbuts\tavg\tet\tl5%\tl5\tl5avg\tl5et\tcote\n"	
 for p in players:
 	sPresence=""
 	for e in p.getLastFivePresence():
@@ -23,7 +23,8 @@ for p in players:
 		else:
 			sPresence+="o"
 			
-	line="{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
+	line="{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
+		p.getNomPrenom()+p.getPosition()+p.club,
 		p.lastname.encode("utf-8")+p.getPosition()+p.club,
 		p.getPrenomNom(),
 		p.club,
